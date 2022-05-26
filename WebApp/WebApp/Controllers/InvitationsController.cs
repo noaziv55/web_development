@@ -8,7 +8,7 @@ using WebApp.Hubs;
 
 namespace WebApp.Controllers
 {
-    [Route("api/invitation/")]
+    [Route("api/invitations/")]
     [ApiController]
     public class InvitationsController : ControllerBase
     {

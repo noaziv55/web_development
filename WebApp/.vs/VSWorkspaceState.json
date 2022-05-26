@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\WebApp"
+    "\\WebApp",
+    "\\WebApp\\Controllers",
+    "\\WebApp\\Hubs",
+    "\\WebApp\\Migrations"
   ],
   "SelectedNode": "\\WebApp.sln",
   "PreviewInSolutionExplorer": false

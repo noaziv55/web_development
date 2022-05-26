@@ -10,7 +10,7 @@ using WebApp.Services;
 namespace WebApi.Controllers
 {
     [Route("api/contacts/{id}/messages")]
-    //[Route("api/[controller]")]
+    //[Route("api/[controller]/")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
