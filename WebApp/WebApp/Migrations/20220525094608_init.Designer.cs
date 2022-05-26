@@ -11,7 +11,7 @@ using WebApi.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(WebChatContext))]
-    [Migration("20220523082907_init")]
+    [Migration("20220525094608_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

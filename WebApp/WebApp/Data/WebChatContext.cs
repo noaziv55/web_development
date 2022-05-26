@@ -18,8 +18,8 @@ namespace WebApi.Data
         {
             // Configuring the Name property as the primary
             // key of the Items table
-            //modelBuilder.Entity<User>().HasKey(e => e.Username);
-            //modelBuilder.Entity<Message>().HasKey(e => e.Id);
+            //modelBuilder.Entity<User>().HasKey(e => e.UsernameOfUser);
+            //modelBuilder.Entity<Message>().HasKey(e => e.id);
             //modelBuilder.Entity<Rating>().HasKey(e => e.Id);
             modelBuilder.Entity<Contact>().HasKey(e => new { e.UsernameOfContact, e.ContactOfUser });
 

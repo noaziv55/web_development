@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using WebApi.Data;
 using WebApi.Models;
+using WebApp.Hubs;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +13,12 @@ namespace WebApp.Controllers
     public class TransfersController : ControllerBase
     {
         private readonly WebChatContext _context;
+        private readonly IHubContext<ChatHub> hubContext;
 
-        public TransfersController(WebChatContext context)
+        public TransfersController(WebChatContext context, IHubContext<ChatHub> HubContext)
         {
             _context = context;
+            hubContext = HubContext;
         }
         public class TransfersBody
         {
@@ -40,10 +44,16 @@ namespace WebApp.Controllers
                 contact.lastdate = DateTime.Now;
                 contact.lastMessage = body.content;
             }
-            var message = new Message(body.to, body.content, body.content);
-            _context.Messages.Add(message);
+            else
+            {
+                var message = new Message(body.to, body.from, body.content);
+                _context.Messages.Add(message);
+            }
+            //var message = new Message(body.from, body.to, body.content);
+            //_context.Messages.Add(message);
             await _context.SaveChangesAsync();
-            return Ok();
+            await hubContext.Clients.Group(body.to).SendAsync("refresh");
+            return StatusCode(201);
         }
     }
 }

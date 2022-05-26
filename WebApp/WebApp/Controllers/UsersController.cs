@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApi.Data;
-using WebApi.Models;
+using WebApp.Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,10 +9,10 @@ namespace WebApi.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly WebChatContext _context;
-        public UsersController(WebChatContext context)
+        private readonly UserService _service;
+        public UsersController(UserService service)
         {
-            _context = context;
+            _service = service;
         }
 
         public class UserBody
@@ -23,33 +21,36 @@ namespace WebApi.Controllers
 
             public string? Password { get; set; }
 
-            public string? ServerAddress { get; set; }
+            public string? Server { get; set; }
         }
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] UserBody body)
         {
-            var user = await _context.Users.FindAsync(body.Username);
+            var user = await _service.GetUser(body.Username);
             if (user == null)
             {
-                user = new User(body.Username, body.Password, body.ServerAddress);
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                await _service.AddUser(body.Username, body.Password, body.Server);
                 return Ok();
             }
+
             return BadRequest();
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login(string username)
+        public async Task<IActionResult> Login(string username, string password)
         {
-            var user = await _context.Users.FindAsync(username);
+            var user = await _service.GetUser(username);
             if (user == null)
             {
                 // call to register page to add this new user
                 return NotFound();
             }
-            return Ok();
+            if (user.Password == password)
+            {
+                return Ok(user);
+            }
+            return BadRequest();
         }
 
 

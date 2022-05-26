@@ -25,7 +25,7 @@ namespace WebApi.Models
 
         public DateTime? lastdate { get; set; }
 
-        public Contact(string UsernameOfContact, string ContactOfUser,string NicknameOfContact, string server)
+        public Contact(string UsernameOfContact, string ContactOfUser, string NicknameOfContact, string server)
         {
             this.UsernameOfContact = UsernameOfContact;
             this.ContactOfUser = ContactOfUser;
